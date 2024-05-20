@@ -7,28 +7,14 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const Rooms = () => {
-  // const [rooms, setRooms] = useState([])
-  // const [loading, setLoading] = useState(false)
   const axiosSecure = useAxiosSecure();
-  const { data: rooms } = useQuery({
+  const { data: rooms = [] } = useQuery({
     queryKey: "rooms",
     queryFn: async () => {
       const { data } = await axiosSecure.get("/rooms");
       return data;
     },
   });
-console.log(rooms);
-  // useEffect(() => {
-  //   setLoading(true)
-  //   fetch(`./rooms.json`)
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       setRooms(data)
-  //       setLoading(false)
-  //     })
-  // }, [])
-
-  // if (loading) return <LoadingSpinner />
 
   return (
     <Container>
