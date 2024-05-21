@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { useContext } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
@@ -6,8 +6,11 @@ import toast from "react-hot-toast";
 import { ImSpinner9 } from "react-icons/im";
 
 const Login = () => {
-  const { signIn, signInWithGoogle, loading } = useContext(AuthContext);
+  const { signIn, signInWithGoogle, loading, setLoading } =
+    useContext(AuthContext);
+  const location = useLocation();
   const navigate = useNavigate();
+  const from = location?.state || "/";
   const handleLogin = async (e) => {
     e.preventDefault();
     const form = e.target;
@@ -15,20 +18,23 @@ const Login = () => {
     const password = form.password.value;
     console.log(email, password);
     try {
+      setLoading(true);
       const result = await signIn(email, password);
       if (result.user) {
         toast.success("Successfully Login!");
-        navigate("/");
+        setLoading(false);
+        navigate(from);
       }
     } catch (error) {
       toast.error(error.message);
+      setLoading(false);
     }
   };
   const handleGoogleLogin = async () => {
     try {
       await signInWithGoogle();
       toast.success("Successfully Login!");
-      navigate("/");
+      navigate(from);
     } catch (error) {
       toast.error(error.message);
     }
@@ -59,7 +65,7 @@ const Login = () => {
                 id="email"
                 required
                 placeholder="Enter Your Email Here"
-                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-rose-500 bg-gray-200 text-gray-900"
+                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-[#29ADB2] bg-gray-200 text-gray-900"
                 data-temp-mail-org="0"
               />
             </div>
@@ -76,7 +82,7 @@ const Login = () => {
                 id="password"
                 required
                 placeholder="*******"
-                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-rose-500 bg-gray-200 text-gray-900"
+                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-[#29ADB2] bg-gray-200 text-gray-900"
               />
             </div>
           </div>
@@ -85,7 +91,7 @@ const Login = () => {
             <button
               disabled={loading}
               type="submit"
-              className="bg-rose-500 disabled:cursor-not-allowed w-full rounded-md py-3 text-white"
+              className="bg-[#29ADB2] disabled:cursor-not-allowed w-full rounded-md py-3 text-white"
             >
               {loading ? (
                 <ImSpinner9 className="animate-spin mx-auto " />

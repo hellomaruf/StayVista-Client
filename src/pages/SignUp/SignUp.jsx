@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
 import { useContext } from "react";
@@ -15,6 +15,8 @@ const SignUp = () => {
     signInWithGoogle,
   } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location?.state || "/";
   const handleSignUp = async (e) => {
     e.preventDefault();
     const form = e.target;
@@ -37,19 +39,23 @@ const SignUp = () => {
       await updateUserProfile(name, photo);
       if (result.user) {
         toast.success("Successfully SignUP");
-        navigate("/");
+        setLoading(false);
+        navigate(from);
       }
     } catch (err) {
       toast.error(err.message);
+      setLoading(false);
     }
   };
   const handleGoogle = async () => {
     try {
       await signInWithGoogle();
       toast.success("Successfully SignUP");
-      navigate("/");
+      navigate(from);
+      setLoading(false);
     } catch (err) {
       toast.error("Google SignUp Failed");
+      setLoading(false);
     }
   };
   return (
@@ -75,7 +81,7 @@ const SignUp = () => {
                 name="name"
                 id="name"
                 placeholder="Enter Your Name Here"
-                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-rose-500 bg-gray-200 text-gray-900"
+                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-[#29ADB2] bg-gray-200 text-gray-900"
                 data-temp-mail-org="0"
               />
             </div>
@@ -101,7 +107,7 @@ const SignUp = () => {
                 id="email"
                 required
                 placeholder="Enter Your Email Here"
-                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-rose-500 bg-gray-200 text-gray-900"
+                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-[#29ADB2] bg-gray-200 text-gray-900"
                 data-temp-mail-org="0"
               />
             </div>
@@ -118,7 +124,7 @@ const SignUp = () => {
                 id="password"
                 required
                 placeholder="*******"
-                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-rose-500 bg-gray-200 text-gray-900"
+                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-[#29ADB2] bg-gray-200 text-gray-900"
               />
             </div>
           </div>
@@ -127,7 +133,7 @@ const SignUp = () => {
             <button
               disabled={loading}
               type="submit"
-              className="bg-rose-500 disabled:cursor-not-allowed w-full rounded-md py-3 text-white"
+              className="bg-[#29ADB2] disabled:cursor-not-allowed w-full rounded-md py-3 text-white"
             >
               {loading ? (
                 <ImSpinner9 className="animate-spin mx-auto " />
@@ -157,7 +163,7 @@ const SignUp = () => {
           Already have an account?{" "}
           <Link
             to="/login"
-            className="hover:underline hover:text-rose-500 text-gray-600"
+            className="hover:underline hover:text-[#29ADB2] text-gray-600"
           >
             Login
           </Link>

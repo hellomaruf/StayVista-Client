@@ -3,6 +3,7 @@ import { AiOutlineMenu } from 'react-icons/ai'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import useAuth from '../../../hooks/useAuth'
+import logo from '../../../assets/images/logo.png'
 import avatarImg from '../../../assets/images/placeholder.jpg'
 
 const Navbar = () => {
@@ -15,14 +16,15 @@ const Navbar = () => {
         <Container>
           <div className='flex flex-row  items-center justify-between gap-3 md:gap-0'>
             {/* Logo */}
-            <Link to='/'>
+            <Link className='flex items-center justify-center' to='/'>
               <img
                 // className='hidden md:block'
-                src='https://i.ibb.co/4ZXzmq5/logo.png'
+                src={logo}
                 alt='logo'
-                width='100'
-                height='100'
+                width='40'
+                height='40'
               />
+              <h2 className='font-semibold text-3xl'>Room<span className='font-normal text-[#29ADB2]'>Rover</span></h2>
             </Link>
             {/* Dropdown Menu */}
             <div className='relative'>
