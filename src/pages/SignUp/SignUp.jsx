@@ -1,12 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
 import { useContext } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import toast from "react-hot-toast";
+import { ImSpinner9 } from "react-icons/im";
 
 const SignUp = () => {
-  const { createUser, updateUserProfile } = useContext(AuthContext);
+  const { createUser, updateUserProfile, loading, setLoading } =
+    useContext(AuthContext);
+  const navigate = useNavigate();
   const handleSignUp = async (e) => {
     e.preventDefault();
     const form = e.target;
@@ -16,9 +19,8 @@ const SignUp = () => {
     const image = form.image.files[0];
     const formData = new FormData();
     formData.append("image", image);
-    console.log(name, email, password);
-    console.log(image);
     try {
+      setLoading(true);
       const { data } = await axios.post(
         `https://api.imgbb.com/1/upload?key=${
           import.meta.env.VITE_IMGBB_API_KEY
@@ -29,7 +31,8 @@ const SignUp = () => {
       const result = await createUser(email, password);
       await updateUserProfile(name, photo);
       if (result.user) {
-        return toast.success("Successfully SignUP");
+        toast.success("Successfully SignUP");
+        navigate("/");
       }
     } catch (err) {
       toast.error(err.message);
@@ -111,7 +114,11 @@ const SignUp = () => {
               type="submit"
               className="bg-rose-500 w-full rounded-md py-3 text-white"
             >
-              Continue
+              {loading ? (
+                <ImSpinner9 className="animate-spin mx-auto " />
+              ) : (
+                "Continue"
+              )}
             </button>
           </div>
         </form>
