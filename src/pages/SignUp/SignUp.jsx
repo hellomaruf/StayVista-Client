@@ -7,8 +7,13 @@ import toast from "react-hot-toast";
 import { ImSpinner9 } from "react-icons/im";
 
 const SignUp = () => {
-  const { createUser, updateUserProfile, loading, setLoading } =
-    useContext(AuthContext);
+  const {
+    createUser,
+    updateUserProfile,
+    loading,
+    setLoading,
+    signInWithGoogle,
+  } = useContext(AuthContext);
   const navigate = useNavigate();
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -36,6 +41,15 @@ const SignUp = () => {
       }
     } catch (err) {
       toast.error(err.message);
+    }
+  };
+  const handleGoogle = async () => {
+    try {
+      await signInWithGoogle();
+      toast.success("Successfully SignUP");
+      navigate("/");
+    } catch (err) {
+      toast.error("Google SignUp Failed");
     }
   };
   return (
@@ -111,8 +125,9 @@ const SignUp = () => {
 
           <div>
             <button
+              disabled={loading}
               type="submit"
-              className="bg-rose-500 w-full rounded-md py-3 text-white"
+              className="bg-rose-500 disabled:cursor-not-allowed w-full rounded-md py-3 text-white"
             >
               {loading ? (
                 <ImSpinner9 className="animate-spin mx-auto " />
@@ -129,11 +144,15 @@ const SignUp = () => {
           </p>
           <div className="flex-1 h-px sm:w-16 dark:bg-gray-700"></div>
         </div>
-        <div className="flex justify-center items-center space-x-2 border m-3 p-2 border-gray-300 border-rounded cursor-pointer">
+        <button
+          disabled={loading}
+          onClick={handleGoogle}
+          className="flex justify-center disabled:cursor-not-allowed items-center space-x-2 border m-3 p-2 border-gray-300 border-rounded cursor-pointer"
+        >
           <FcGoogle size={32} />
 
           <p>Continue with Google</p>
-        </div>
+        </button>
         <p className="px-6 text-sm text-center text-gray-400">
           Already have an account?{" "}
           <Link
