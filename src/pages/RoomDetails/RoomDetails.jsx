@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const RoomDetails = () => {
-  const {id} = useParams();
+  const { id } = useParams();
   const axiosSecure = useAxiosSecure();
   const { data: room = {} } = useQuery({
     queryKey: "room",

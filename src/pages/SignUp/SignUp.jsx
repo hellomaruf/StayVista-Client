@@ -1,10 +1,11 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
-import axios from "axios";
+// import axios from "axios";
 import { useContext } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import toast from "react-hot-toast";
 import { ImSpinner9 } from "react-icons/im";
+import { ImageUpload } from "../../Utils";
 
 const SignUp = () => {
   const {
@@ -24,17 +25,18 @@ const SignUp = () => {
     const email = form.email.value;
     const password = form.password.value;
     const image = form.image.files[0];
-    const formData = new FormData();
-    formData.append("image", image);
+    const photo = await ImageUpload(image);
+    // const formData = new FormData();
+    // formData.append("image", image);
     try {
       setLoading(true);
-      const { data } = await axios.post(
-        `https://api.imgbb.com/1/upload?key=${
-          import.meta.env.VITE_IMGBB_API_KEY
-        }`,
-        formData
-      );
-      const photo = data.data.display_url;
+      // const { data } = await axios.post(
+      //   `https://api.imgbb.com/1/upload?key=${
+      //     import.meta.env.VITE_IMGBB_API_KEY
+      //   }`,
+      //   formData
+      // );
+      // const photo = data.data.display_url;
       const result = await createUser(email, password);
       await updateUserProfile(name, photo);
       if (result.user) {

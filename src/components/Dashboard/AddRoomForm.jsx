@@ -1,10 +1,64 @@
 import { DateRange } from "react-date-range";
 import { categories } from "../Categories/CategoriesData";
-// import { useState } from "react";
-const AddRoomForm = ({ dates, handleDates }) => {
+import { useState } from "react";
+import useAuth from "../../hooks/useAuth";
+import { ImageUpload } from "../../Utils";
+
+const AddRoomForm = () => {
+  const { user } = useAuth();
+  const [dates, setDates] = useState({
+    startDate: new Date(),
+    endDate: null,
+    key: "selection",
+  });
+  const handleDates = (item) => {
+    console.log(item);
+    setDates(item.selection);
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const location = form.location.value;
+    const category = form.category.value;
+    const to = dates.endDate;
+    const from = dates.startDate;
+    const title = form.title.value;
+    const image = form.image.files[0];
+    const price = form.price.value;
+    const total_guest = form.total_guest.value;
+    const bedrooms = form.bedrooms.value;
+    const bathrooms = form.bathrooms.value;
+    const description = form.description.value;
+    const host = {
+      name: user?.displayName,
+      email: user?.email,
+      photo: user?.photoURL,
+    };
+    try {
+      const image_url = await ImageUpload(image);
+      const roomData = {
+        location,
+        category,
+        to,
+        from,
+        title,
+        image: image_url,
+        price,
+        total_guest,
+        bedrooms,
+        bathrooms,
+        description,
+        host,
+      };
+      console.table(roomData);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <div className="w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50">
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           <div className="space-y-6">
             <div className="space-y-1 text-sm">
