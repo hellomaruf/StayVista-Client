@@ -5,10 +5,11 @@ import useAuth from "../../hooks/useAuth";
 import { ImageUpload } from "../../Utils";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import Swal from "sweetalert2";
+import { ImSpinner9 } from "react-icons/im";
 
 const AddRoomForm = () => {
   const axiosPublic = useAxiosPublic();
-  const { user } = useAuth();
+  const { user, loading, setLoading } = useAuth();
   const [dates, setDates] = useState({
     startDate: new Date(),
     endDate: null,
@@ -19,6 +20,7 @@ const AddRoomForm = () => {
     setDates(item.selection);
   };
   const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
     const form = e.target;
     const location = form.location.value;
@@ -56,6 +58,7 @@ const AddRoomForm = () => {
       console.table(roomData);
       await axiosPublic.post("/room", roomData).then((res) => {
         if (res.data.insertedId) {
+          setLoading(false);
           Swal.fire({
             icon: "success",
             title: "Your Room Added Successfully!",
@@ -65,6 +68,7 @@ const AddRoomForm = () => {
         }
       });
     } catch (error) {
+      setLoading(false);
       console.log(error.message);
     }
   };
@@ -231,7 +235,11 @@ const AddRoomForm = () => {
           type="submit"
           className="w-full p-3 mt-5 text-center font-medium text-white transition duration-200 rounded shadow-md bg-[#29ADB2]"
         >
-          Save & Continue
+          {loading ? (
+            <ImSpinner9 className="animate-spin mx-auto " />
+          ) : (
+            "Save & Continue"
+          )}
         </button>
       </form>
     </div>

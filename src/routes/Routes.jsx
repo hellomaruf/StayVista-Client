@@ -42,13 +42,15 @@ export const router = createBrowserRouter([
         element: <Statistics />,
       },
       {
-        path: 'addRoom',
-        element:<AddRoom/>
+        path: "addRoom",
+        element: (
+          <AddRoom />
+        ),
       },
       {
-        path: 'myListings',
-        element:<MyListings/>
-      }
+        path: "myListings",
+        element: <MyListings />,
+      },
     ],
   },
 ]);
