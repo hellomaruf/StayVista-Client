@@ -3,8 +3,11 @@ import { categories } from "../Categories/CategoriesData";
 import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import { ImageUpload } from "../../Utils";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
+import Swal from "sweetalert2";
 
 const AddRoomForm = () => {
+  const axiosPublic = useAxiosPublic();
   const { user } = useAuth();
   const [dates, setDates] = useState({
     startDate: new Date(),
@@ -51,6 +54,16 @@ const AddRoomForm = () => {
         host,
       };
       console.table(roomData);
+      await axiosPublic.post("/room", roomData).then((res) => {
+        if (res.data.insertedId) {
+          Swal.fire({
+            icon: "success",
+            title: "Your Room Added Successfully!",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      });
     } catch (error) {
       console.log(error.message);
     }
