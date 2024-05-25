@@ -8,7 +8,7 @@ const RoomReservation = ({ room }) => {
     {
       startDate: new Date(),
       endDate: null,
-      key: "selection",
+      
     },
   ]);
   return (

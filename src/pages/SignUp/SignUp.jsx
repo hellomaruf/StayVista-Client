@@ -1,13 +1,14 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
-// import axios from "axios";
 import { useContext } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import toast from "react-hot-toast";
 import { ImSpinner9 } from "react-icons/im";
 import { ImageUpload } from "../../Utils";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const SignUp = () => {
+  const axiosPublic = useAxiosPublic();
   const {
     createUser,
     updateUserProfile,
@@ -28,6 +29,20 @@ const SignUp = () => {
     const photo = await ImageUpload(image);
     // const formData = new FormData();
     // formData.append("image", image);
+    const userInfo = {
+      name,
+      email,
+      role: "guest",
+      status: "verified",
+    };
+    await axiosPublic
+      .post(`/users`, userInfo)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     try {
       setLoading(true);
       // const { data } = await axios.post(

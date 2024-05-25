@@ -4,8 +4,10 @@ import { useContext } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import toast from "react-hot-toast";
 import { ImSpinner9 } from "react-icons/im";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const Login = () => {
+  const axiosPublic = useAxiosPublic();
   const { signIn, signInWithGoogle, loading, setLoading } =
     useContext(AuthContext);
   const location = useLocation();
@@ -16,7 +18,19 @@ const Login = () => {
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
-    console.log(email, password);
+    const userInfo = {
+      email,
+      role: "guest",
+      status: "verified",
+    };
+    await axiosPublic
+      .post(`/users`, userInfo)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     try {
       setLoading(true);
       const result = await signIn(email, password);
