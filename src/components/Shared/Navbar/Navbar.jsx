@@ -5,11 +5,24 @@ import { Link } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import logo from "../../../assets/images/logo.png";
 import avatarImg from "../../../assets/images/placeholder.jpg";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
+  const axiosSecure = useAxiosSecure();
   const { user, logOut } = useAuth();
-  const [isOpen, setIsOpen] = useState(false);
 
+  const [isOpen, setIsOpen] = useState(false);
+  const handleBecomeHost = async () => {
+    console.log("i wanted to be host");
+      await axiosSecure.patch(`/user/${user?.email}`).then(res => {
+      if (res.data.modifiedCount > 0) {
+        toast.success("Success! Please wait for user confirmation");
+      } else {
+        toast.success('Please Wait for Admin Approval')
+      }
+    })
+  };
   return (
     <div className="fixed w-full bg-white z-10 shadow-sm">
       <div className="py-4 border-b-[1px]">
@@ -32,15 +45,46 @@ const Navbar = () => {
             <div className="relative">
               <div className="flex flex-row items-center gap-3">
                 {/* Become A Host btn */}
-                <div className="hidden md:block">
-                  {!user && (
-                    <button
-                      disabled={!user}
-                      className="disabled:cursor-not-allowed cursor-pointer hover:bg-neutral-100 py-3 px-4 text-sm font-semibold rounded-full  transition"
-                    >
-                      Host your home
-                    </button>
-                  )}
+                <div className=" md:block">
+                  {/* {!user && (
+                  )} */}
+                  <button
+                    disabled={!user}
+                    onClick={() =>
+                      document.getElementById("my_modal_5").showModal()
+                    }
+                    className="disabled:cursor-not-allowed cursor-pointer hover:bg-neutral-100 py-3 px-4 text-sm font-semibold rounded-full  transition"
+                  >
+                    Host your home
+                  </button>
+                  <dialog
+                    id="my_modal_5"
+                    className="modal modal-bottom sm:modal-middle"
+                  >
+                    <div className="modal-box">
+                      <h3 className="font-bold text-lg">Become a Host!!</h3>
+                      <p className="py-4 text-xs">
+                        A modal is a temporary, focused dialog box that requires
+                        users to interact with it before returning to the main
+                        application. It is commonly used for actions that need
+                        user confirmation or for displaying important messages.
+                      </p>
+                      <div className="modal-action">
+                        <form method="dialog " className="space-x-4">
+                          <button
+                            onClick={handleBecomeHost}
+                            className="btn bg-green-100 text-green-600"
+                          >
+                            Continue
+                          </button>
+                          {/* if there is a button in form, it will close the modal */}
+                          <button className="btn bg-red-100 text-red-600">
+                            Cancel
+                          </button>
+                        </form>
+                      </div>
+                    </div>
+                  </dialog>
                 </div>
                 {/* Dropdown btn */}
                 <div
