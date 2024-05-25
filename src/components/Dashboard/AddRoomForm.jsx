@@ -6,9 +6,11 @@ import { ImageUpload } from "../../Utils";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import Swal from "sweetalert2";
 import { ImSpinner9 } from "react-icons/im";
+import { useNavigate } from "react-router-dom";
 
 const AddRoomForm = () => {
   const axiosPublic = useAxiosPublic();
+  const navigate = useNavigate();
   const { user, loading, setLoading } = useAuth();
   const [dates, setDates] = useState({
     startDate: new Date(),
@@ -65,6 +67,7 @@ const AddRoomForm = () => {
             showConfirmButton: false,
             timer: 1500,
           });
+          navigate("/dashboard/myListings");
         }
       });
     } catch (error) {
