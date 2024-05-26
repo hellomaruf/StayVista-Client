@@ -7,9 +7,9 @@ import useCurrentUser from "../../hooks/useCurrentUser";
 import toast from "react-hot-toast";
 
 const Profile = () => {
-  const { user } = useAuth();
+  const { user } = useAuth() || {};
   const [role] = useRole();
-  const [currentUser, refetch, isLoading] = useCurrentUser();
+  const [currentUser, refetch] = useCurrentUser() || {};
   console.log(currentUser);
   const axiosSecure = useAxiosSecure();
   const handleUpdateProfile = async (e) => {
@@ -78,15 +78,17 @@ const Profile = () => {
           </form>
         </div>
       </dialog>
-      {isLoading ? (
-        <p>Loading..........</p>
+      {/* {currentUser ? (
+       
       ) : (
-        <div className="bg-white shadow-lg rounded-2xl w-3/5">
+        <p>Loading....</p>
+      )} */}
+       <div className="bg-white shadow-lg rounded-2xl w-3/5">
           <div className="flex flex-col items-center justify-center p-4 -mt-16">
             <a href="#" className="relative block">
               <img
                 alt="profile"
-                src={currentUser?.photo}
+                src={currentUser && currentUser?.photo}
                 className="mx-auto object-cover rounded-full h-32 w-32  border-2 border-white "
               />
             </a>
@@ -102,7 +104,7 @@ const Profile = () => {
                 <p className="flex flex-col">
                   Name
                   <span className="font-bold text-black ">
-                    {currentUser?.name}
+                    {currentUser && currentUser?.name}
                   </span>
                 </p>
                 <p className="flex flex-col">
@@ -127,7 +129,6 @@ const Profile = () => {
             </div>
           </div>
         </div>
-      )}
     </div>
   );
 };
