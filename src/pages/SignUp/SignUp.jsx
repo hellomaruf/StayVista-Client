@@ -32,6 +32,7 @@ const SignUp = () => {
     const userInfo = {
       name,
       email,
+      photo,
       role: "guest",
       status: "verified",
     };
@@ -68,6 +69,7 @@ const SignUp = () => {
     try {
       await signInWithGoogle();
       toast.success("Successfully SignUP");
+      
       navigate(from);
       setLoading(false);
     } catch (err) {

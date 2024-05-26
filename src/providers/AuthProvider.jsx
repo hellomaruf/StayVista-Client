@@ -71,6 +71,7 @@ const AuthProvider = ({ children }) => {
     const userInfo = {
       name: user.name,
       email: user.email,
+      photo: user.photoURL,
       role: "guest",
       status: "verified",
     };
