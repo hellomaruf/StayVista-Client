@@ -10,11 +10,12 @@ import { NavLink } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 import { Link } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
-import useRole from './../../hooks/useRole';
+import useRole from "./../../hooks/useRole";
+import MenuItem from "../Shared/Menu/MenuItem";
 function Sidebar() {
   const { logOut } = useAuth();
   const [isActive, setActive] = useState(false);
-  const [role] = useRole()
+  const [role] = useRole();
   console.log(role);
 
   // Sidebar Responsive Handler
@@ -81,46 +82,25 @@ function Sidebar() {
             {/*  Menu Items */}
             <nav>
               {/* Statistics */}
-              <NavLink
-                to="statistics"
-                end
-                className={({ isActive }) =>
-                  `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
-                    isActive ? "bg-gray-300  text-gray-700" : "text-gray-600"
-                  }`
-                }
-              >
-                <BsGraphUp className="w-5 h-5" />
-
-                <span className="mx-4 font-medium">Statistics</span>
-              </NavLink>
+              <MenuItem
+                label={"Statistics"}
+                address={"statistics"}
+                icon={BsGraphUp}
+              />
 
               {/* Add Room */}
-              <NavLink
-                to="addRoom"
-                className={({ isActive }) =>
-                  `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
-                    isActive ? "bg-gray-300  text-gray-700" : "text-gray-600"
-                  }`
-                }
-              >
-                <BsFillHouseAddFill className="w-5 h-5" />
+              <MenuItem
+                label={"Add Room"}
+                address={"addRoom"}
+                icon={BsFillHouseAddFill}
+              />
 
-                <span className="mx-4 font-medium">Add Room</span>
-              </NavLink>
               {/* My Listing */}
-              <NavLink
-                to="myListings"
-                className={({ isActive }) =>
-                  `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
-                    isActive ? "bg-gray-300  text-gray-700" : "text-gray-600"
-                  }`
-                }
-              >
-                <MdHomeWork className="w-5 h-5" />
-
-                <span className="mx-4 font-medium">My Listings</span>
-              </NavLink>
+              <MenuItem
+                label={"My Listings"}
+                address={"myListings"}
+                icon={MdHomeWork}
+              />
             </nav>
           </div>
         </div>
