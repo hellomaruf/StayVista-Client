@@ -10,7 +10,6 @@ const Profile = () => {
   const { user } = useAuth() || {};
   const [role] = useRole();
   const [currentUser, refetch] = useCurrentUser() || {};
-  console.log(currentUser);
   const axiosSecure = useAxiosSecure();
   const handleUpdateProfile = async (e) => {
     console.log("update done");
@@ -49,8 +48,8 @@ const Profile = () => {
               ✕
             </button>
           </form>
-          <h3 className="font-bold text-lg">Update your Profile!</h3>
-          <p className="py-4">Press ESC key or click on ✕ button to close</p>
+          <h3 className="font-bold text-lg mb-3">Update your Profile!</h3>
+       
           <form onSubmit={handleUpdateProfile}>
             <label
               htmlFor="UserEmail"
