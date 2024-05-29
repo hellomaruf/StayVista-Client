@@ -1,9 +1,10 @@
 import { Helmet } from "react-helmet-async";
 import useAllUsers from "../../../hooks/useAllUsers";
+import Spinner from "../../Spinner";
 
 const ManageUser = () => {
   const [allUser, refetch, isLoading] = useAllUsers();
-  console.log(allUser);
+
   return (
     <>
       <div className="container mx-auto px-4 sm:px-8">
@@ -12,7 +13,7 @@ const ManageUser = () => {
         </Helmet>
         <div className="overflow-x-auto">
           {isLoading ? (
-            <p>Loading.......</p>
+            <Spinner />
           ) : (
             <table className="table">
               {/* head */}
