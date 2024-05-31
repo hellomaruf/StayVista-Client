@@ -3,7 +3,8 @@ import useAllUsers from "../../../hooks/useAllUsers";
 import Spinner from "../../Spinner";
 
 const ManageUser = () => {
-  const [allUser, refetch, isLoading] = useAllUsers();
+  const [allUser, , isLoading] = useAllUsers();
+  const handleUpdateUserRole = () => {};
 
   return (
     <>
@@ -63,7 +64,14 @@ const ManageUser = () => {
                       </div>
                     </td>
                     <th>
-                      <button className="btn btn-ghost btn-xs bg-green-100 text-green-600">
+                      <button
+                        onClick={() =>
+                          handleUpdateUserRole()
+                            .document.getElementById("my_modal_2")
+                            .showModal()
+                        }
+                        className="btn btn-ghost btn-xs bg-green-100 text-green-600"
+                      >
                         Update Role
                       </button>
                     </th>
@@ -73,6 +81,17 @@ const ManageUser = () => {
             </table>
           )}
         </div>
+
+        {/* Update Modal */}
+        <dialog id="my_modal_2" className="modal">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg">Hello!</h3>
+            <p className="py-4">Press ESC key or click outside to close</p>
+          </div>
+          <form method="dialog" className="modal-backdrop">
+            <button>close</button>
+          </form>
+        </dialog>
       </div>
     </>
   );
